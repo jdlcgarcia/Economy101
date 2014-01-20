@@ -46,6 +46,7 @@ public class MainActivity extends TabActivity {
         tabHost.addTab(expensesSpec); // Adding expenses tab
         tabHost.addTab(incomeSpec); // Adding income tab
         tabHost.addTab(statsSpec); // Adding stats tab
+        
 	}
 
 	@Override

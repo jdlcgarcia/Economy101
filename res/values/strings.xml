@@ -11,4 +11,5 @@
     <string name="bCancelExpense">Cancel</string>
 	<string name="bNewIncome">New</string>
     <string name="bCancelIncome">Cancel</string>
+    <string name="perc_message">You\'ve spent this percentage of your income this month:</string>
 </resources>

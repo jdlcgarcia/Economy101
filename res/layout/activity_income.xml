@@ -17,7 +17,7 @@
         android:layout_marginBottom="50dp"
         >
     </ListView>
-
+<!--  
     <Button
         android:id="@+id/bNewIncome"
         android:layout_width="wrap_content"
@@ -33,5 +33,5 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:text="@string/bCancelIncome" />
-
+-->
 </RelativeLayout>

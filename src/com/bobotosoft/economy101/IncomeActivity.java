@@ -5,7 +5,12 @@ import java.util.ArrayList;
 import android.os.Bundle;
 import android.app.ListActivity;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class IncomeActivity extends ListActivity {
 
@@ -13,7 +18,8 @@ public class IncomeActivity extends ListActivity {
 	DBManager manager;
 	private ArrayList<Movement> moves;
     private MovementAdapter mAdapter;
-	
+    EditText newDescription;
+    EditText newAmount;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -21,16 +27,58 @@ public class IncomeActivity extends ListActivity {
 		
 		manager = new DBManager(this);
 		
-		
+		newDescription = (EditText)findViewById(R.id.ETdescription);
+        newAmount = (EditText)findViewById(R.id.ETamount);
+        reloadIncome();
+        final Button bNew = (Button) findViewById(R.id.bNewExpense);
+        bNew.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+            	
+                if (newDescription.getText().toString().matches("")){
+                	Toast toast = Toast.makeText(getApplicationContext(), R.string.nodescription, Toast.LENGTH_SHORT);
+                	toast.show();
+                } 
+                else if (newAmount.getText().toString().matches("")){
+                	Toast toast = Toast.makeText(getApplicationContext(), R.string.noamount, Toast.LENGTH_SHORT);
+                	toast.show();
+                }  
+                else {
+                	Movement m = new Movement(newDescription.getText().toString(),Double.parseDouble(newAmount.getText().toString()));
+                	manager.insert(m.getDescription(), m.getAmount());
+                	newDescription.setText("");
+                	newAmount.setText("");
+                	Toast toast = Toast.makeText(getApplicationContext(), R.string.newincomeok, Toast.LENGTH_SHORT);
+                	toast.show();
+                	reloadIncome();
+                	
+                }
+                
+            }
+        });
+        
+        final Button bCancel = (Button) findViewById(R.id.bCancelExpense);
+        bCancel.setOnClickListener(new View.OnClickListener() {
+        	@Override
+			public void onClick(View v) {
+        		newDescription.setText("");
+            	newAmount.setText("");
+			}
+                	
+        });
+        
+        
+	}
+
+	private void reloadIncome() {
 		//FILL THE ARRAYLIST<MOVEMENT>
 		moves = new ArrayList<Movement>();
 		moves = manager.get_income();
-		
-		this.mAdapter = new MovementAdapter(this, moves);
-        setListAdapter(mAdapter);
+		mAdapter = new MovementAdapter(this, moves);
+	    setListAdapter(mAdapter);
 		
 	}
-
+	
+	
 	@Override
 	protected void onStop() {
 		super.onStop();
@@ -46,5 +94,23 @@ public class IncomeActivity extends ListActivity {
 		return true;
 	}
 	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle item selection
+	    switch (item.getItemId()) {
+	        case R.id.reboot:
+	            manager.reset();
+	            reloadIncome();
+	        break;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
+	    return true;
+	}
 	
+	@Override
+	public void onResume() {
+        super.onResume();
+		reloadIncome();
+    }
 }

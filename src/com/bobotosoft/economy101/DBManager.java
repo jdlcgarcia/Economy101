@@ -28,13 +28,13 @@ public class DBManager {
 		helper = new DBHelper(context);
 		db = helper.getWritableDatabase();
 		
-		db.execSQL(DBManager.RESET_TABLE);
-		this.insert("Gameboy", -70);
+		//db.execSQL(DBManager.RESET_TABLE);
+		/*this.insert("Gameboy", -70);
 		this.insert("Food", -50);
 		this.insert("Dinner with friends",-30);
 		this.insert("Salary", 1120);
 		this.insert("Christmas", 150);
-		
+		*/
 	}
 	
 	public ContentValues createContentValues(String description, double amount)
@@ -91,5 +91,10 @@ public class DBManager {
             } while (mCursor.moveToNext());
         }
 		return resultList;
+	}
+
+	public void reset() {
+		db.execSQL(DBManager.RESET_TABLE);
+		
 	}
 }

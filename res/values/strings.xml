@@ -2,7 +2,9 @@
 <resources>
 
     <string name="app_name">Economy101</string>
-    <string name="reboot">Reboot</string>
+    <string name="iDelete">Delete</string>
+    
+    <string name="iReboot">Reboot</string>
     <string name="title_activity_expenses">Expenses</string>
     <string name="title_activity_income">Income</string>
     <string name="title_activity_stats">Statistics</string>

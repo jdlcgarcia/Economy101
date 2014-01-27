@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="app_name">Economy101</string>
-    <string name="action_settings">Propiedades</string>
+    <string name="reboot">Reiniciar</string>
+    <string name="iDelete">Borrar</string>
+    
+    <string name="iReboot">Reiniciar</string>
     <string name="title_activity_expenses">Gastos</string>
     <string name="title_activity_income">Ingresos</string>
     <string name="title_activity_stats">Estadísticas</string>
@@ -11,4 +12,12 @@
 	<string name="bNewIncome">Nuevo</string>
     <string name="bCancelIncome">Cancelar</string>
     <string name="perc_message">Has gastado este porcentaje de tus ingresos mensuales:</string>
+    
+    <string name="perc_message_error">No has registrado ingresos. Por favor, incluye al menos un ingreso.</string>
+    <string name="nodescription">Debes escribir una descripción para el nuevo movimiento</string>
+    <string name="noamount">Debes escribir una cantidad para el nuevo movimiento</string>
+    <string name="newexpenseok">Has incluido un gasto correctamente</string>
+    <string name="newincomeok">Has incluido un ingreso correctamente</string>
+    
+    
 </resources>

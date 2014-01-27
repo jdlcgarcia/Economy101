@@ -40,6 +40,7 @@ public class StatsActivity extends Activity {
 		
 		double totalexp= 0;
 		double totalinc= 0;
+		double n_percent = 0;
 		for (int i = 0; i < expenses.size(); i++) {
 			totalexp += Math.abs(expenses.get(i).getAmount());
 		}
@@ -54,10 +55,32 @@ public class StatsActivity extends Activity {
 		else
 		{
 			whynot.setText(R.string.perc_message);
-			percentage.setText(new DecimalFormat("##.##").format((100*totalexp)/totalinc)+"%");
+			n_percent = (100*totalexp)/totalinc;
+			percentage.setText(new DecimalFormat("##.##").format(n_percent)+"%");
+		}
+		
+		if (n_percent<25)
+		{
+			percentage.setTextColor(getResources().getColor(R.color.good_percentage));
+			
+		}
+		else if (n_percent < 50)
+		{
+			percentage.setTextColor(getResources().getColor(R.color.medium_percentage));
+		}
+		else if (n_percent < 75)
+		{
+			percentage.setTextColor(getResources().getColor(R.color.bad_percentage));
+		}
+		else if (n_percent < 100)
+		{
+			percentage.setTextColor(getResources().getColor(R.color.dying_percentage));
+		}
+		else
+		{
+			percentage.setTextColor(getResources().getColor(R.color.overflow_percentage));
 		}
 		
 	}
-
-
+	
 }

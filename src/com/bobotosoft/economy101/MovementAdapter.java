@@ -75,7 +75,7 @@ public View getView(int position, View convertView, ViewGroup parent) {
         holder = (ViewHolder) convertView.getTag();
     }
     holder.description.setText(allMoves.get(position).getDescription());
-    holder.amount.setText(String.valueOf(allMoves.get(position).getAmount()));
+    holder.amount.setText(String.valueOf(allMoves.get(position).getAmount())+" €");
     holder.pos = position;
     return convertView;
 }

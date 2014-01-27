@@ -4,13 +4,19 @@ import java.util.ArrayList;
 
 import android.os.Bundle;
 import android.app.ListActivity;
+import android.content.Context;
+import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 
 public class IncomeActivity extends ListActivity {
 
@@ -20,6 +26,7 @@ public class IncomeActivity extends ListActivity {
     private MovementAdapter mAdapter;
     EditText newDescription;
     EditText newAmount;
+    View list;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -30,7 +37,11 @@ public class IncomeActivity extends ListActivity {
 		newDescription = (EditText)findViewById(R.id.ETdescription);
         newAmount = (EditText)findViewById(R.id.ETamount);
         reloadIncome();
+        list = getListView();
+        registerForContextMenu(list);
+        
         final Button bNew = (Button) findViewById(R.id.bNewExpense);
+        
         bNew.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
             	
@@ -52,9 +63,13 @@ public class IncomeActivity extends ListActivity {
                 	reloadIncome();
                 	
                 }
-                
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(newAmount.getWindowToken(), 0);
+                 
             }
+            
         });
+         
         
         final Button bCancel = (Button) findViewById(R.id.bCancelExpense);
         bCancel.setOnClickListener(new View.OnClickListener() {
@@ -62,6 +77,11 @@ public class IncomeActivity extends ListActivity {
 			public void onClick(View v) {
         		newDescription.setText("");
             	newAmount.setText("");
+            	newDescription.clearFocus();
+            	newAmount.clearFocus();
+            	bCancel.requestFocus();
+            	InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(newAmount.getWindowToken(), 0);
 			}
                 	
         });
@@ -88,29 +108,46 @@ public class IncomeActivity extends ListActivity {
 	
 	
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.expenses, menu);
-		return true;
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-	    // Handle item selection
-	    switch (item.getItemId()) {
-	        case R.id.reboot:
-	            manager.reset();
-	            reloadIncome();
-	        break;
-	        default:
-	            return super.onOptionsItemSelected(item);
-	    }
-	    return true;
-	}
-	
-	@Override
 	public void onResume() {
         super.onResume();
 		reloadIncome();
     }
+	
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+	                                ContextMenuInfo menuInfo) {
+	    super.onCreateContextMenu(menu, v, menuInfo);
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.contextmovement, menu);
+	    String title =menu.findItem(R.id.iDeleteAll).getTitle() + " " + getString(R.string.title_activity_income); 
+	    menu.findItem(R.id.iDeleteAll).setTitle(title);
+	}
+	
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+	    AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+	    Movement m = (Movement) getListAdapter().getItem(info.position);
+	    int key = m.getId();
+	    switch (item.getItemId()) {
+	        case R.id.iDelete:
+	        	manager.delete(key);
+	            reloadIncome();
+	            return true;
+	        case R.id.iDeleteAll:
+	        	manager.deleteIncome();
+	        	reloadIncome();
+	            return true;
+	        case R.id.iReboot:
+	        	manager.reset();
+	        	reloadIncome();
+	            return true;
+	        
+	        default:
+	            return super.onContextItemSelected(item);
+	    }
+	}
+	
+	
+	
+	
 }

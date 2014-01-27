@@ -67,7 +67,7 @@ public class DBManager {
             	Movement m = new Movement(mCursor.getString(mCursor.getColumnIndex(CN_DESCRIPTION)),
             							  mCursor.getDouble(mCursor.getColumnIndex(CN_AMOUNT))
             							  );
-            									  
+            	m.setId(mCursor.getInt(mCursor.getColumnIndex(CN_ID)));								  
             									  
                resultList.add(m);
 
@@ -84,7 +84,7 @@ public class DBManager {
             	Movement m = new Movement(mCursor.getString(mCursor.getColumnIndex(CN_DESCRIPTION)),
             							  mCursor.getDouble(mCursor.getColumnIndex(CN_AMOUNT))
             							  );
-            									  
+            	m.setId(mCursor.getInt(mCursor.getColumnIndex(CN_ID)));
             									  
                resultList.add(m);
 
@@ -92,9 +92,19 @@ public class DBManager {
         }
 		return resultList;
 	}
+	
+	
 
 	public void reset() {
 		db.execSQL(DBManager.RESET_TABLE);
 		
+	}
+
+	public void deleteExpenses() {
+		db.execSQL("DELETE FROM "+TABLE_NAME+" WHERE "+CN_AMOUNT+" < 0");
+	}
+
+	public void deleteIncome() {
+		db.execSQL("DELETE FROM "+TABLE_NAME+" WHERE "+CN_AMOUNT+" > 0");
 	}
 }

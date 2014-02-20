@@ -7,7 +7,7 @@ import android.util.Log;
 
 public class DBHelper extends SQLiteOpenHelper{
 	private static final String DB_NAME = "economy.sqlite";
-	private static final int DB_SCHEME_VERSION = 1;
+	private static final int DB_SCHEME_VERSION = 5;
 	
 	public DBHelper(Context context) {
 		super(context, DB_NAME, null, DB_SCHEME_VERSION);
@@ -15,12 +15,14 @@ public class DBHelper extends SQLiteOpenHelper{
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
+		db.execSQL("drop database movement");
 		db.execSQL(DBManager.CREATE_TABLE);
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		
+		db.execSQL("ALTER TABLE movement ADD COLUMN date integer");
+		db.execSQL("ALTER TABLE movement ADD COLUMN currency text");
 	}
 
 }

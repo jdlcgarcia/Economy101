@@ -3,21 +3,62 @@
 
     <string name="app_name">Economy101</string>
     <string name="iDelete">Delete</string>
-    
     <string name="iReboot">Reboot</string>
     <string name="title_activity_expenses">Expenses</string>
     <string name="title_activity_income">Income</string>
     <string name="title_activity_stats">Statistics</string>
     <string name="bNewExpense">New</string>
     <string name="bCancelExpense">Cancel</string>
-	<string name="bNewIncome">New</string>
+    <string name="bNewIncome">New</string>
     <string name="bCancelIncome">Cancel</string>
     <string name="perc_message">You\'ve spent this percentage of your income this month:</string>
     <string name="perc_message_error">You have no income. Please, add at least an income movement.</string>
-    
     <string name="nodescription">You have to write a description for the new movement</string>
     <string name="noamount">You have to write an amount for the new movement</string>
     <string name="newexpenseok">You have included a new expense correctly</string>
     <string name="newincomeok">You have included a new income movement correctly</string>
-    
+	<string name="total">TOTAL</string>
+	<string name="pref_currentMonth">Current Month</string>
+	<string name="pref_currentMonth_summary">View your expenses and income of the current month</string>
+	<string name="pref_intervalStart">Start</string>
+	<string name="pref_intervalEnd">End</string>
+	<string name="pref_intervalStart_summary">Set the first date to check</string>
+	<string name="pref_intervalEnd_summary">Set the last date to check</string>
+	
+	
+    <string-array name="pref_currency_entries">
+        <item>Euro</item>
+        <item>US Dollar</item>
+        <item>British Pound</item>
+        <item>Indian Rupee</item>
+        <item>Australian Dollar</item>
+        <item>Canadian Dollar</item>
+        <item>Emirati Dirham</item>
+        <item>Malaysian Ringgit</item>
+        <item>Swiss Franc</item>
+        <item>Chinese Yuan Renminbi</item>
+        <item>Thai Baht</item>
+        <item>Mexican Peso</item>
+        <item>Japanese Yen</item>
+    </string-array>
+    <string-array name="pref_currency_values">
+        <item>EUR</item>
+        <item>USD</item>
+        <item>GBP</item>
+        <item>INR</item>
+        <item>AUD</item>
+        <item>CAD</item>
+        <item>AED</item>
+        <item>MYR</item>
+        <item>CHF</item>
+        <item>CNY</item>
+        <item>THB</item>
+        <item>MXN</item>
+        <item>JPY</item>
+    </string-array>
+
+    <string name="title_activity_example">Example</string>
+    <string name="settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+
 </resources>

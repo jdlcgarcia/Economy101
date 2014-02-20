@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <ListPreference
+        android:key="currency"
+   		android:title="Currency"
+   		android:summary="Select your currency"
+   		android:dialogTitle="Select currency"
+        android:entries="@array/pref_currency_entries"
+        android:entryValues="@array/pref_currency_values"
+        />
+    
+    <CheckBoxPreference 
+        android:key="currentMonth"
+        android:title="@string/pref_currentMonth"
+        android:summary="@string/pref_currentMonth_summary"
+        android:defaultValue="true"
+        android:disableDependentsState="true"
+        />
+    
+    <com.bobotosoft.economy101.IntervalPreference
+      android:key="intervalStart" 
+      android:title="@string/pref_intervalStart"
+      android:summary="@string/pref_intervalStart_summary"
+      android:dependency="currentMonth"
+      />
+    <com.bobotosoft.economy101.IntervalPreference
+      android:key="intervalEnd" 
+      android:title="@string/pref_intervalEnd"
+      android:summary="@string/pref_intervalEnd_summary"
+      android:dependency="currentMonth"
+       />
+</PreferenceScreen>

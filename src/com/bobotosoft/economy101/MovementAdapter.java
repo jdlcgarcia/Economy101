@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +18,15 @@ public class MovementAdapter extends ArrayAdapter<Movement>{
 	private ArrayList<Movement> allMoves;
 	private LayoutInflater mInflater;
 	private boolean mNotifyOnChange;
-
+	String currency;
 	public MovementAdapter(Context context, ArrayList<Movement> moves) {
 		super(context, R.layout.movement);
 	    this.context = context;
 	    this.allMoves = new ArrayList<Movement>(moves);
 	    this.mInflater = LayoutInflater.from(context);
+	    SharedPreferences pref =
+	            PreferenceManager.getDefaultSharedPreferences(this.context);
+		currency = pref.getString("currency", "");
 	}
 
 
@@ -75,7 +80,7 @@ public View getView(int position, View convertView, ViewGroup parent) {
         holder = (ViewHolder) convertView.getTag();
     }
     holder.description.setText(allMoves.get(position).getDescription());
-    holder.amount.setText(String.valueOf(allMoves.get(position).getAmount())+" €");
+    holder.amount.setText(String.valueOf(allMoves.get(position).getAmount())+" "+currency);
     holder.pos = position;
     return convertView;
 }

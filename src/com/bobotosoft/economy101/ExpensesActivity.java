@@ -1,11 +1,15 @@
 package com.bobotosoft.economy101;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.DialogInterface.OnClickListener;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -19,25 +23,36 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class ExpensesActivity extends ListActivity implements OnClickListener{
 
+	private static final String TAG = "Expenses";
 	ListView expenses;
 	DBManager manager;
 	private ArrayList<Movement> moves;
     private MovementAdapter mAdapter;
     EditText newDescription;
     EditText newAmount;
+    TextView total;
+    String currency;
     View list;
+    boolean currentMonth;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_list);
 		manager = new DBManager(this);
+		SharedPreferences pref =
+	            PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+		currency = pref.getString("currency", "");
+		currentMonth = pref.getBoolean("currentMonth", true);
+		
 		
 		newDescription = (EditText)findViewById(R.id.ETdescription);
         newAmount = (EditText)findViewById(R.id.ETamount);
+        total = (TextView)findViewById(R.id.tvTotal);
         reloadExpenses();
         list = getListView();
         registerForContextMenu(list);
@@ -55,8 +70,10 @@ public class ExpensesActivity extends ListActivity implements OnClickListener{
                 	toast.show();
                 }  
                 else {
-                	Movement m = new Movement(newDescription.getText().toString(),-1.0*Double.parseDouble(newAmount.getText().toString()));
-                	manager.insert(m.getDescription(), m.getAmount());
+                	Movement m = new Movement(newDescription.getText().toString(),-1.0*Double.parseDouble(newAmount.getText().toString()),
+                			(int)System.currentTimeMillis()/1000,
+                			currency);
+                	manager.insert(m.getDescription(), m.getAmount(),m.getDate(),m.getCurrency());
                 	newDescription.setText("");
                 	newAmount.setText("");
                 	Toast toast = Toast.makeText(getApplicationContext(), R.string.newexpenseok, Toast.LENGTH_SHORT);
@@ -88,10 +105,29 @@ public class ExpensesActivity extends ListActivity implements OnClickListener{
 	private void reloadExpenses() {
 		//FILL THE ARRAYLIST<MOVEMENT>
 		moves = new ArrayList<Movement>();
+		Log.d(TAG,"reload");
+		if (currentMonth){
+			Calendar rightNow = Calendar.getInstance();
+			Log.d(TAG,firstDay(rightNow)+" "+lastDay(rightNow));
+			
+		}
 		moves = manager.get_expenses();
 		mAdapter = new MovementAdapter(this, moves);
 	    setListAdapter(mAdapter);
+	    total.setText(getString(R.string.total)+" = "+manager.get_total_expenses().toString() + " " + currency);
 	    
+	}
+
+	private long lastDay(Calendar rightNow) {
+		int lastdays[] = new int[12];
+		
+		rightNow.set(Calendar.DAY_OF_MONTH, 1);
+		return rightNow.getTimeInMillis();
+	}
+
+	private long firstDay(Calendar rightNow) {
+		rightNow.set(Calendar.DAY_OF_MONTH, 1);
+		return rightNow.getTimeInMillis();
 	}
 
 	@Override

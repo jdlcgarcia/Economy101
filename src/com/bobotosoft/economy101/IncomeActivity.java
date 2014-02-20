@@ -3,8 +3,11 @@ package com.bobotosoft.economy101;
 import java.util.ArrayList;
 
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,6 +18,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
@@ -27,15 +31,23 @@ public class IncomeActivity extends ListActivity {
     EditText newDescription;
     EditText newAmount;
     View list;
+    String currency;
+    TextView total;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_list);
+		SharedPreferences pref =
+	            PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+		currency = pref.getString("currency", "");
+		
 		
 		manager = new DBManager(this);
 		
 		newDescription = (EditText)findViewById(R.id.ETdescription);
         newAmount = (EditText)findViewById(R.id.ETamount);
+        total = (TextView)findViewById(R.id.tvTotal);
+        
         reloadIncome();
         list = getListView();
         registerForContextMenu(list);
@@ -54,8 +66,11 @@ public class IncomeActivity extends ListActivity {
                 	toast.show();
                 }  
                 else {
-                	Movement m = new Movement(newDescription.getText().toString(),Double.parseDouble(newAmount.getText().toString()));
-                	manager.insert(m.getDescription(), m.getAmount());
+                	Movement m = new Movement(newDescription.getText().toString(),
+                			Double.parseDouble(newAmount.getText().toString()),
+                			(int)System.currentTimeMillis()/1000,
+                			currency);
+                	manager.insert(m.getDescription(), m.getAmount(),m.getDate(),m.getCurrency());
                 	newDescription.setText("");
                 	newAmount.setText("");
                 	Toast toast = Toast.makeText(getApplicationContext(), R.string.newincomeok, Toast.LENGTH_SHORT);
@@ -95,6 +110,7 @@ public class IncomeActivity extends ListActivity {
 		moves = manager.get_income();
 		mAdapter = new MovementAdapter(this, moves);
 	    setListAdapter(mAdapter);
+	    total.setText(getString(R.string.total)+" = "+manager.get_total_income().toString() + " " + currency);
 		
 	}
 	
@@ -141,6 +157,7 @@ public class IncomeActivity extends ListActivity {
 	        	manager.reset();
 	        	reloadIncome();
 	            return true;
+	        
 	        
 	        default:
 	            return super.onContextItemSelected(item);

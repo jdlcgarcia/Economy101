@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <CheckBox
+        android:id="@+id/cbPeriodic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/periodic" 
+        android:layout_marginTop="5dp"/>
+
+    <EditText
+        android:id="@+id/ETdescription"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Concepto"
+        android:inputType="textCapSentences"
+		android:layout_marginTop="5dp"
+		>
+        <requestFocus />
+        </EditText>
+ 
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" 
+        android:layout_marginTop="5dp">
+
+    <EditText
+        android:id="@+id/ETamount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="numberDecimal" 
+        android:layout_weight="2"
+        android:hint="Cantidad"
+        >
+        
+    </EditText>
+
+    <Spinner
+        android:id="@+id/spCurrencies"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+    
+    </LinearLayout>
+ 	<DatePicker
+ 	    android:layout_gravity="center_horizontal|center_vertical"
+        android:id="@+id/dpStart"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" 
+        android:calendarViewShown="false" 
+        android:layout_marginTop="5dp"/>
+
+ 	<Spinner
+ 	    android:id="@+id/spPeriodic"
+ 	    android:layout_width="match_parent"
+ 	    android:layout_height="wrap_content"
+ 	    android:visibility="gone"
+ 	     />
+
+ 	<RelativeLayout
+ 	    android:layout_width="match_parent"
+ 	    android:layout_height="wrap_content" 
+ 	    android:layout_marginTop="5dp"
+ 	    >
+
+ 		<Button
+ 		    android:id="@+id/btnCancel"
+ 		    android:layout_width="wrap_content"
+ 		    android:layout_height="wrap_content"
+ 		    android:text="@string/btnCancel" 
+ 		    android:layout_alignParentLeft="true"
+ 		    android:layout_alignParentTop="true"
+ 		    />
+
+ 		<Button
+ 		    android:id="@+id/btnNewMove"
+ 		    android:layout_width="wrap_content"
+ 		    android:layout_height="wrap_content"
+ 		    android:text="@string/btnNewMove" 
+ 		    android:layout_alignParentRight="true"
+ 		    android:layout_alignParentTop="true"/>
+
+ 	</RelativeLayout>
+
+</LinearLayout>

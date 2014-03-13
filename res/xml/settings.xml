@@ -8,6 +8,7 @@
    		android:dialogTitle="Select currency"
         android:entries="@array/pref_currency_entries"
         android:entryValues="@array/pref_currency_values"
+        android:defaultValue="EUR"
         />
     
     <CheckBoxPreference 
@@ -18,16 +19,18 @@
         android:disableDependentsState="true"
         />
     
-    <com.bobotosoft.economy101.IntervalPreference
+    <bobotosoft.economy101.IntervalPreference
       android:key="intervalStart" 
       android:title="@string/pref_intervalStart"
       android:summary="@string/pref_intervalStart_summary"
       android:dependency="currentMonth"
+      android:defaultValue="01-01-2014"
       />
-    <com.bobotosoft.economy101.IntervalPreference
+    <bobotosoft.economy101.IntervalPreference
       android:key="intervalEnd" 
       android:title="@string/pref_intervalEnd"
       android:summary="@string/pref_intervalEnd_summary"
       android:dependency="currentMonth"
+      android:defaultValue="31-12-2014"
        />
 </PreferenceScreen>
